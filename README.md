@@ -25,36 +25,36 @@ The following steps need to be followed in order to build the jar file :
 ### Seekable Gzip: Write
 Class GZipOutputStreamRandomAccess which extends DeflaterOutputStream provides required methods to implement index data within file.
 
-class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
-    private Map<Long, Long> offsetMap = new LinkedHashMap<Long, Long>(); //will maintain index where value provides byte offset for given key
+    class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
+        private Map<Long, Long> offsetMap = new LinkedHashMap<Long, Long>(); //will maintain index where value provides byte offset for given key
      
-    /** This method adds current byte offset (in gzip file) for given key.*/
-    public void addOffset(Long key) {
-    }
+        /** This method adds current byte offset (in gzip file) for given key.*/
+        public void addOffset(Long key) {
+        }
  
-    /**Writes header with extra comment which contains entries from offsetMap.*/
-    private void writeHeaderWithComment() {
+        /**Writes header with extra comment which contains entries from offsetMap.*/
+        private void writeHeaderWithComment() {
+        }
     }
-}
 
 ### Seekable Gzip: Read
 GZipInputStreamRandomAccess which extends GZIPInputStream provides required methods to jump to specific locations in gzip file.
 
-class GZipInputStreamRandomAccess extends GZIPInputStream {
+    class GZipInputStreamRandomAccess extends GZIPInputStream {
 
-    /** Return metadata information for given file.*/   
+        /** Return metadata information for given file.*/   
         public Map<Long, Long> getMetadata(); 
 	
-    /** This method jump to location for specifies key. If specified key does not exist, then it will jump to beginning of file.*/
+        /** This method jump to location for specifies key. If specified key does not exist, then it will jump to beginning of file.*/
         public void jumpToIndex(Long index) throws IOException;
-}
+    }
 
 If one needs to read from Hadoop, then he needs to use SeekableGZipDataInputStream class as shown below:
 
-FSDataInputStream fin = fs.open(new Path("testfile"));
-long len = fs.getFileStatus(new Path("testfile")).getLen();
-SeekableGZipDataInputStream sin = new SeekableGZipDataInputStream(fin, len);
-GZipInputStreamRandomAccess gzin = new GZipInputStreamRandomAccess(sin); 
+    FSDataInputStream fin = fs.open(new Path("testfile"));
+    long len = fs.getFileStatus(new Path("testfile")).getLen();
+    SeekableGZipDataInputStream sin = new SeekableGZipDataInputStream(fin, len);
+    GZipInputStreamRandomAccess gzin = new GZipInputStreamRandomAccess(sin); 
 
 ### Splittable GZip
 SplittableGZipCodec class implements SplittableCodec provided by Hadoop. If file is generated with multiple headers, then it will be able to split accordingly. If there is single gzip header, then it will run with single split only.
@@ -63,7 +63,4 @@ SplittableGZipCodec class implements SplittableCodec provided by Hadoop. If file
  In order to use split feature for gzip file, one needs to set “io.compression.codec” to "io.gzinga.hadoop.SplittableGZipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec" for JobConf object.
  Also one can set split size by setting property "“mapreduce.input.fileinputformat.split.maxsize” to required value.
  
-
-## Contribution Guidelines
-
 
