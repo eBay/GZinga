@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.gzinga</groupId>
+		<artifactId>main</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>gzinga-hadoop</artifactId>
+	<version>1.0.0</version>
+	<name>GZinga hadoop</name>
+	<dependencies>
+		<dependency>
+			<groupId>io.gzinga</groupId>
+			<artifactId>gzinga-core</artifactId>
+			<version>1.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+      			<groupId>org.apache.hadoop</groupId>
+      			<artifactId>hadoop-common</artifactId>
+      			<version>2.4.0.2.1.2.0-402</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+                       	<groupId>org.apache.hadoop</groupId>
+                      	<artifactId>hadoop-hdfs</artifactId>
+                      	<version>2.4.0.2.1.2.0-402</version>
+			<scope>compile</scope>
+		</dependency>
+<dependency>
+                        <groupId>org.apache.hadoop</groupId>
+                        <artifactId>hadoop-mapreduce-client-common</artifactId>
+                        <version>2.4.0</version>
+                        <scope>test</scope>
+                </dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-core</artifactId>
+			<version>2.4.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
