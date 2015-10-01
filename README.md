@@ -23,7 +23,7 @@ The following steps need to be followed in order to build the jar file :
  * In order to run test cases use `mvn clean test`
 
 ### Seekable Gzip: Write
-Class GZipOutputStreamRandomAccess which extends DeflaterOutputStream provides required methods to implement index data within file.
+Class *GZipOutputStreamRandomAccess* which extends *DeflaterOutputStream* provides required methods to implement index data within file.
 
     class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
         private Map<Long, Long> offsetMap = new LinkedHashMap<Long, Long>(); //will maintain index where value provides byte offset for given key
@@ -38,7 +38,7 @@ Class GZipOutputStreamRandomAccess which extends DeflaterOutputStream provides r
     }
 
 ### Seekable Gzip: Read
-GZipInputStreamRandomAccess which extends GZIPInputStream provides required methods to jump to specific locations in gzip file.
+*GZipInputStreamRandomAccess* which extends *GZIPInputStream* provides required methods to jump to specific locations in gzip file.
 
     class GZipInputStreamRandomAccess extends GZIPInputStream {
 
@@ -49,7 +49,7 @@ GZipInputStreamRandomAccess which extends GZIPInputStream provides required meth
         public void jumpToIndex(Long index) throws IOException;
     }
 
-If one needs to read from Hadoop, then he needs to use SeekableGZipDataInputStream class as shown below:
+If one needs to read from Hadoop, then he needs to use *SeekableGZipDataInputStream* class as shown below:
 
     FSDataInputStream fin = fs.open(new Path("testfile"));
     long len = fs.getFileStatus(new Path("testfile")).getLen();
@@ -57,10 +57,10 @@ If one needs to read from Hadoop, then he needs to use SeekableGZipDataInputStre
     GZipInputStreamRandomAccess gzin = new GZipInputStreamRandomAccess(sin); 
 
 ### Splittable GZip
-SplittableGZipCodec class implements SplittableCodec provided by Hadoop. If file is generated with multiple headers, then it will be able to split accordingly. If there is single gzip header, then it will run with single split only.
+*SplittableGZipCodec* class implements *SplittableCodec* provided by Hadoop. If file is generated with multiple headers, then it will be able to split accordingly. If there is single gzip header, then it will run with single split only.
 
 #### Configuration
- In order to use split feature for gzip file, one needs to set “io.compression.codec” to "io.gzinga.hadoop.SplittableGZipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec" for JobConf object.
- Also one can set split size by setting property "“mapreduce.input.fileinputformat.split.maxsize” to required value.
+ In order to use split feature for gzip file, one needs to set *“io.compression.codec”* to *"io.gzinga.hadoop.SplittableGZipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec"* for JobConf object.
+ Also one can set split size by setting property *"mapreduce.input.fileinputformat.split.maxsize”* to required value.
  
 
