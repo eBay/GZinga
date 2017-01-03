@@ -252,8 +252,8 @@ public class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
     }    
     
     public static void main(String[] args) throws Exception {
-	//	GZipOutputStreamRandomAccess gzip = new GZipOutputStreamRandomAccess(new File(args[1]));
-    	GZIPOutputStream gzip = new GZIPOutputStream(new FileOutputStream(args[1]), true);
+	GZipOutputStreamRandomAccess gzip = new GZipOutputStreamRandomAccess(new File(args[1]));
+    	//GZIPOutputStream gzip = new GZIPOutputStream(new FileOutputStream(args[1]), true);
 		
     	InputStream br = new FileInputStream(args[0]);
 		int count = 0;
@@ -269,7 +269,7 @@ public class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
 			count += len;
 			if(count >= lines ) {
 				gzip.flush();
-	//			gzip.addOffset(j++);
+				gzip.addOffset(j++);
 				count = 0;
 			}
 		}

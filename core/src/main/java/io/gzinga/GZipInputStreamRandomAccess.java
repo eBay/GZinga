@@ -262,9 +262,9 @@ public class GZipInputStreamRandomAccess  extends GZIPInputStream {
 	}	
 	
 	public static void main(String[] args) throws Exception {
-	//	GZipInputStreamRandomAccess gzin = new GZipInputStreamRandomAccess(new File(args[0]));
-		GZIPInputStream gzin = new GZIPInputStream(new FileInputStream(args[0]));
-		//gzin.jumpToIndex(Long.valueOf(args[1]).longValue());
+		GZipInputStreamRandomAccess gzin = new GZipInputStreamRandomAccess(new File(args[0]));
+	//	GZIPInputStream gzin = new GZIPInputStream(new FileInputStream(args[0]));
+		gzin.jumpToIndex(Long.valueOf(args[1]).longValue());
 		//System.out.println(gzin.getPos());
 		gzin.skip(Long.valueOf(args[1]).longValue());
 		
