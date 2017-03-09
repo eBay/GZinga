@@ -93,12 +93,14 @@ public class InputStreamConverter extends InputStream {
 	 */
 	private boolean checkHeader() throws IOException {
 		long pos = raf.getPos();
+		byte[] portableHeaderBytes = new byte[headerbytes.length-1];
+		System.arraycopy(headerbytes,0,portableHeaderBytes,0,headerbytes.length-1);
 		byte[] buf = new byte[headerbytes.length];
 		int n = raf.read(buf);
 		if(n < headerbytes.length) {
 			return false;
 		}
-		n = lastIndexOf(buf, headerbytes, 0, buf.length - 1);
+		n = lastIndexOf(buf, portableHeaderBytes, 0, buf.length - 1);
 		raf.seek(pos);
 		if(n == -1) {
 			return false;
