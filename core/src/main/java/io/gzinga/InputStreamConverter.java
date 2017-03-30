@@ -137,7 +137,9 @@ public class InputStreamConverter extends InputStream {
 					break;
 				}
 			}
-			int headerIndex = lastIndexOf(bytes, headerbytes, 0, bytesToRead - 1);
+			byte[] portableHeaderBytes = new byte[headerbytes.length-1];
+			System.arraycopy(headerbytes,0,portableHeaderBytes,0,headerbytes.length-1);
+			int headerIndex = lastIndexOf(bytes, portableHeaderBytes, 0, bytesToRead - 1);
 			if(headerIndex == -1) {
 				if(position == 0) {
 					raf.seek(0);
@@ -154,13 +156,26 @@ public class InputStreamConverter extends InputStream {
 			} else {
 				raf.seek(position + headerIndex + headerbytes.length);
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				while(true) {
-					int i = raf.read();
-					if(i == 0) {
+				byte [] remaining = new byte[bytes.length - (headerIndex + headerbytes.length)];
+				System.arraycopy(bytes, headerIndex+headerbytes.length, remaining,0,remaining.length);
+
+				boolean endMarker = false;
+				for (int i = 0 ; i < remaining.length ; i++) {
+					byte currentByte = remaining[i];
+					if(currentByte == 0) {
+						endMarker = true;
 						break;
 					}
-					bos.write(i);
+					bos.write(currentByte);
 				}
+				if(!endMarker) {
+					int currentInt = raf.read();
+					if(currentInt == 0) {
+						break;
+					}
+					bos.write(currentInt);
+				}
+
 				String metadata = bos.toString();
 				StringTokenizer stk = new StringTokenizer(metadata, ";");
 				while(stk.hasMoreTokens()) {
