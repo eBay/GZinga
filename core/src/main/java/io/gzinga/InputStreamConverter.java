@@ -113,7 +113,7 @@ public class InputStreamConverter extends InputStream {
 	 * Writes metadata information into Map.
 	 * @throws IOException
 	 */
-	private void storeMetadata() throws IOException {
+	public void storeMetadata() throws IOException {
 		long pos = 0;
 		int position = 0;
 		int bytesToRead = readSize;
