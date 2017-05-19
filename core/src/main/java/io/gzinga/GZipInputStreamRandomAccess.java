@@ -106,7 +106,17 @@ public class GZipInputStreamRandomAccess  extends GZIPInputStream {
 	 * @return
 	 */
 	public Map<Long, Long> getMetadata() {
-		return Collections.unmodifiableMap(((InputStreamConverter)this.in).getMetadata());
+		InputStreamConverter inputStreamConverter = (InputStreamConverter) this.in;
+		Map<Long,Long> metadata = inputStreamConverter.getMetadata();
+		if(metadata.isEmpty()) {
+			try {
+				inputStreamConverter.storeMetadata();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			metadata = inputStreamConverter.getMetadata();
+		}
+		return Collections.unmodifiableMap(metadata);
 	}
 	
 	/**
