@@ -134,7 +134,19 @@ public class GZipOutputStreamRandomAccess extends DeflaterOutputStream {
 		offsetMap.put(key, totalLength);
     	writeHeader();
     }
-    
+
+    /**
+     * Flushes the header into the stream. This method can be used , when user wants to maintain the offset information
+     * outside of gzinga files.With this method , the user should be able to unzip portion of the file using externally
+     * stored index.
+     *
+     * @throws IOException
+     */
+    public void addMarker() throws IOException {
+        resetGzipStream();
+        writeHeader();
+    }
+
     /**
      * This method returns current metadata information.
      * @return Map<T, Long> with exisitng metadata information.
